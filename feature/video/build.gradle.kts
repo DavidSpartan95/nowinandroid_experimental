@@ -20,13 +20,12 @@ plugins {
     alias(libs.plugins.nowinandroid.android.library.jacoco)
 }
 android {
-    namespace = "com.google.samples.apps.nowinandroid.feature.interests"
+    namespace = "com.google.samples.apps.nowinandroid.feature.videos"
 }
 
 dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
-    implementation(project(":feature:video"))
 
     testImplementation(projects.core.testing)
     testImplementation(libs.robolectric)
