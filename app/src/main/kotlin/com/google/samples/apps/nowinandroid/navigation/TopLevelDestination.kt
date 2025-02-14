@@ -26,6 +26,7 @@ import com.google.samples.apps.nowinandroid.feature.bookmarks.navigation.Bookmar
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.ForYouBaseRoute
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.ForYouRoute
 import com.google.samples.apps.nowinandroid.feature.interests.navigation.InterestsRoute
+import com.google.samples.nowinandroid.videos.navigation.VideosRoute
 import kotlin.reflect.KClass
 import com.google.samples.apps.nowinandroid.feature.bookmarks.R as bookmarksR
 import com.google.samples.apps.nowinandroid.feature.foryou.R as forYouR
@@ -80,6 +81,6 @@ enum class TopLevelDestination(
         unselectedIcon = Icons.Filled.PlayCircle,
         iconTextId = searchR.string.feature_search_videos,
         titleTextId = searchR.string.feature_search_videos,
-        route = InterestsRoute::class,
+        route = VideosRoute::class,
     )
 }

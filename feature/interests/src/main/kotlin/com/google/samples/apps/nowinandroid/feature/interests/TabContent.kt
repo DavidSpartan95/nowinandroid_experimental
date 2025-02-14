@@ -69,7 +69,6 @@ fun TopicsTabContent(
                 val topicId = followableTopic.topic.id
                 item(key = topicId) {
                     val isSelected = highlightSelectedTopic && topicId == selectedTopicId
-                    VideosScreen()
                     InterestsItem(
                         name = followableTopic.topic.name,
                         following = followableTopic.isFollowed,

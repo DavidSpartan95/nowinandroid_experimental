@@ -43,6 +43,8 @@ import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.BOOKM
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.FOR_YOU
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.INTERESTS
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.VIDEOS
+import com.google.samples.nowinandroid.videos.navigation.navigateToVideos
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -173,7 +175,7 @@ class NiaAppState(
                 FOR_YOU -> navController.navigateToForYou(topLevelNavOptions)
                 BOOKMARKS -> navController.navigateToBookmarks(topLevelNavOptions)
                 INTERESTS -> navController.navigateToInterests(null, topLevelNavOptions)
-                VIDEOS -> navController.navigateToInterests(null, topLevelNavOptions)
+                VIDEOS -> navController.navigateToVideos(topLevelNavOptions)
             }
         }
     }

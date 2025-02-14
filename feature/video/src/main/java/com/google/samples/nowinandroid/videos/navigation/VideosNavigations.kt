@@ -16,3 +16,22 @@
 
 package com.google.samples.nowinandroid.videos.navigation
 
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.compose.composable
+import com.google.samples.nowinandroid.videos.VideosScreen
+import kotlinx.serialization.Serializable
+
+@Serializable object VideosRoute
+
+fun NavController.navigateToVideos(navOptions: NavOptions) =
+    navigate(route = VideosRoute, navOptions)
+
+fun NavGraphBuilder.videosScreen(
+
+) {
+    composable<VideosRoute> {
+        VideosScreen()
+    }
+}

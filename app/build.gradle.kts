@@ -102,6 +102,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.coil.kt)
     implementation(libs.kotlinx.serialization.json)
+    implementation(project(":feature:video"))
 
     ksp(libs.hilt.compiler)
 
