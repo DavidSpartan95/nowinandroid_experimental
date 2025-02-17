@@ -16,29 +16,78 @@
 
 package com.google.samples.nowinandroid.videos
 
+import YouTubePlaylist
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.runBlocking
 import printYouTubeApiResponse
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.graphics.Color
+import com.google.samples.apps.nowinandroid.core.designsystem.component.DynamicAsyncImage
+import coil.compose.AsyncImage
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 
 @Composable
 fun VideosScreen() {
-    Box(
+    var youtubeList: List<YouTubePlaylist> by remember { mutableStateOf(emptyList()) }
+    Column(
         modifier = Modifier.fillMaxSize(),
-        Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-
-
-        Button(onClick = {
-            printYouTubeApiResponse()
-        }){
-            Text("David")
+        Row{
+            Button(onClick = {
+                printYouTubeApiResponse()
+            }){
+                Text("Load")
+            }
+            Button(onClick = {
+                youtubeList = YouTubePlaylistStorage.getPlaylists()
+            }){
+                Text("fetch")
+            }
         }
 
+        LazyColumn {
+
+            items(youtubeList) {video ->
+                Text(
+                    buildAnnotatedString {
+                        withLink(
+                            LinkAnnotation.Url(
+                                "https://www.youtube.com/playlist?list=${video.id}",
+                                TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                            )
+                        ) {
+                            append(video.snippet.title)
+                        }
+                    }
+                )
+
+                AsyncImage(
+                    model = video.snippet.thumbnails.high.url,
+                    contentDescription = null
+                )
+            }
+        }
     }
 }

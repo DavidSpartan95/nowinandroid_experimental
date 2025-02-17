@@ -24,6 +24,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil.kt.compose)
     implementation(projects.core.data)
     implementation(projects.core.domain)
 

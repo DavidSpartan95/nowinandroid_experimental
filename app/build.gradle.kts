@@ -133,6 +133,7 @@ dependencies {
     androidTestImplementation(libs.kotlin.test)
 
     baselineProfile(projects.benchmarks)
+
 }
 
 baselineProfile {

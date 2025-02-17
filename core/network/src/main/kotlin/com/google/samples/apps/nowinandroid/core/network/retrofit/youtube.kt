@@ -26,13 +26,49 @@ interface YouTubeApi {
 }
 
 @Serializable
-data class YouTubeApiResponse(val kind: String, val items: List<YouTubePlaylist>)
+data class Thumbnail(
+    val url: String,
+    val width: Int,
+    val height: Int
+)
 
 @Serializable
-data class YouTubePlaylist(val id: String, val snippet: YouTubeSnippet)
+data class Thumbnails(
+    val default: Thumbnail,
+    val medium: Thumbnail,
+    val high: Thumbnail,
+    val standard: Thumbnail? = null,
+    val maxres: Thumbnail? = null
+)
 
 @Serializable
-data class YouTubeSnippet(val title: String, val description: String)
+data class YouTubeSnippet(
+    val title: String,
+    val description: String,
+    val thumbnails: Thumbnails
+)
+
+@Serializable
+data class YouTubePlaylist(
+    val id: String,
+    val snippet: YouTubeSnippet
+)
+
+@Serializable
+data class YouTubeApiResponse(
+    val items: List<YouTubePlaylist>
+)
+
+object YouTubePlaylistStorage {
+    private val playlists = mutableListOf<YouTubePlaylist>()
+
+    fun savePlaylists(items: List<YouTubePlaylist>) {
+        playlists.clear()
+        playlists.addAll(items)
+    }
+
+    fun getPlaylists(): List<YouTubePlaylist> = playlists
+}
 
 fun printYouTubeApiResponse() {
     val apiKey = APIKEY
@@ -60,7 +96,8 @@ fun printYouTubeApiResponse() {
 
                             // Attempt to parse the JSON response
                             val parsedResponse = json.decodeFromString<YouTubeApiResponse>(responseBody)
-                            println("Parsed API Response: ${parsedResponse.items}")
+                            YouTubePlaylistStorage.savePlaylists(parsedResponse.items)
+                            println("Saved Playlists: ${YouTubePlaylistStorage.getPlaylists()}")
                         } catch (e: Exception) {
                             println("Error parsing the API response: ${e.message}")
                         }
