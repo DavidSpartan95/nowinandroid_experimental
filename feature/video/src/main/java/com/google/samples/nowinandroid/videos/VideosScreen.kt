@@ -17,6 +17,8 @@
 package com.google.samples.nowinandroid.videos
 
 import YouTubePlaylist
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,61 +35,86 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.runBlocking
-import printYouTubeApiResponse
+import fetchYouTubePlayList
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
-import com.google.samples.apps.nowinandroid.core.designsystem.component.DynamicAsyncImage
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withLink
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
+import com.google.samples.apps.nowinandroid.feature.videos.R
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Empty
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Loading
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Success
+
 
 @Composable
-fun VideosScreen() {
-    var youtubeList: List<YouTubePlaylist> by remember { mutableStateOf(emptyList()) }
+fun VideosScreen(
+    viewModel: VideosViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Row{
-            Button(onClick = {
-                printYouTubeApiResponse()
-            }){
-                Text("Load")
-            }
-            Button(onClick = {
-                youtubeList = YouTubePlaylistStorage.getPlaylists()
-            }){
-                Text("fetch")
-            }
-        }
+        when(uiState){
+            Loading -> NiaLoadingWheel(
+                modifier = Modifier,
+                contentDesc = stringResource(id = R.string.feature_video_loading),
+            )
 
-        LazyColumn {
+            Empty -> Text(text = "No Videos")
 
-            items(youtubeList) {video ->
-                Text(
-                    buildAnnotatedString {
-                        withLink(
-                            LinkAnnotation.Url(
-                                "https://www.youtube.com/playlist?list=${video.id}",
-                                TextLinkStyles(style = SpanStyle(color = Color.Blue))
-                            )
-                        ) {
-                            append(video.snippet.title)
+            is Success -> LazyColumn {
+
+
+                items((uiState as Success).playlists) {playList ->
+                    Text(
+                        buildAnnotatedString {
+                            withLink(
+                                LinkAnnotation.Url(
+                                    "https://www.youtube.com/playlist?list=${playList.id}",
+                                    TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                                )
+                            ) {
+                                append(playList.snippet.title)
+                            }
                         }
-                    }
-                )
+                    )
 
-                AsyncImage(
-                    model = video.snippet.thumbnails.high.url,
-                    contentDescription = null
-                )
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                // Open the URL when the image is clicked
+                                val uri = "https://www.youtube.com/playlist?list=${playList.id}"
+                                // You can use your navigation or intent to open the link here
+
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        AsyncImage(
+                            model = playList.snippet.thumbnails.high.url,
+                            contentDescription = null
+                        )
+                    }
+                }
             }
         }
+
+
+
     }
 }

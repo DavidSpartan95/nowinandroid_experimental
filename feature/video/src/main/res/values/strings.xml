@@ -16,4 +16,5 @@
 
 <resources>
     <string name="feature_video_app_name">video</string>
+    <string name="feature_video_loading">Loading data</string>
 </resources>
