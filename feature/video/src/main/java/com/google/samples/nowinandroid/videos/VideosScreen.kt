@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -43,6 +44,7 @@ import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Succ
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Error
 
 @Composable
 fun VideosScreen(
@@ -61,7 +63,14 @@ fun VideosScreen(
                 contentDesc = stringResource(id = R.string.feature_video_loading),
             )
 
-            Empty -> Text(text = "No Videos Found")
+            Empty -> {
+                Text(text = "No videos found")
+                Button(
+                    onClick = { viewModel.retryFetch() }
+                ) {
+                    Text("Retry")
+                }
+            }
 
             is Success -> LazyColumn {
 
@@ -94,6 +103,16 @@ fun VideosScreen(
                         ),
                     )
                 }
+            }
+
+            is Error -> {
+                Text("Unable to load videos")
+                Button(
+                    onClick = { viewModel.retryFetch() }
+                ) {
+                    Text("Retry")
+                }
+
             }
         }
     }

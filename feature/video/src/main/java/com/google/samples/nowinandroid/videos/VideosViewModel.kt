@@ -19,6 +19,10 @@ package com.google.samples.nowinandroid.videos
 import YouTubePlaylist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Empty
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Error
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Loading
+import com.google.samples.nowinandroid.videos.VideosViewModel.VideosUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fetchYouTubePlayList
 import javax.inject.Inject
@@ -32,25 +36,39 @@ class VideosViewModel @Inject constructor(
     // You can inject dependencies here if needed
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<VideosUiState>(VideosUiState.Loading)
+    private val _uiState = MutableStateFlow<VideosUiState>(Loading)
     val uiState: StateFlow<VideosUiState> = _uiState.asStateFlow()
 
     init {
+        fetchVideos()
+    }
 
+    private fun fetchVideos() {
         viewModelScope.launch {
-            fetchYouTubePlayList()
-            YouTubePlaylistStorage.playlists.collect { newPlaylists ->
-                _uiState.value = if (newPlaylists.isEmpty()) {
-                    VideosUiState.Empty
-                } else {
-                    VideosUiState.Success(newPlaylists)
+            try {
+                fetchYouTubePlayList()
+                YouTubePlaylistStorage.playlists.collect { newPlaylists ->
+                    _uiState.value = if (newPlaylists.isEmpty()) {
+                        Empty
+                    } else {
+                        Success(newPlaylists)
+                    }
                 }
+            }catch (e: Exception){
+                _uiState.value = Error(e)
             }
         }
     }
+
+    fun retryFetch(){
+        _uiState.value = Loading
+        fetchVideos()
+    }
+
     sealed interface VideosUiState {
         data object Loading : VideosUiState
         data class Success(val playlists: List<YouTubePlaylist>) : VideosUiState
         data object Empty : VideosUiState
+        data class Error(val exception: Throwable) : VideosUiState
     }
 }

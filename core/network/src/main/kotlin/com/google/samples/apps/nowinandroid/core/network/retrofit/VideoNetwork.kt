@@ -65,7 +65,7 @@ object YouTubePlaylistStorage {
 }
 
 suspend fun fetchYouTubePlayList() {
-    println("Fetching YouTube playlists...")
+
     val apiKey = APIKEY
     withContext(Dispatchers.IO) {
         val url = "https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&channelId=UCKNTZMRHPLXfqlbdOI7mCkg&maxResults=25&key=$apiKey"
