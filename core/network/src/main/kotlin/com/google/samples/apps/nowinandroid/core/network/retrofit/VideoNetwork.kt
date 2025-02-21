@@ -1,23 +1,12 @@
-import com.google.samples.apps.nowinandroid.core.network.retrofit.APIKEY
+import com.google.samples.apps.nowinandroid.core.network.BuildConfig
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import retrofit2.http.GET
-import retrofit2.http.Query
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-interface YouTubeApi {
-    @GET("playlists")
-    suspend fun getPlaylists(
-        @Query("part") part: String = "snippet,contentDetails",
-        @Query("channelId") channelId: String,
-        @Query("maxResults") maxResults: Int = 2,
-        @Query("key") apiKey: String
-    ): String
-}
 
 @Serializable
 data class Thumbnail(
@@ -66,7 +55,7 @@ object YouTubePlaylistStorage {
 
 suspend fun fetchYouTubePlayList() {
 
-    val apiKey = APIKEY
+    val apiKey = BuildConfig.API_KEY
     withContext(Dispatchers.IO) {
         val url = "https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&channelId=UCKNTZMRHPLXfqlbdOI7mCkg&maxResults=25&key=$apiKey"
         val client = OkHttpClient()
