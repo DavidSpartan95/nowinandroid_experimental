@@ -1,6 +1,3 @@
-![Now in Android](docs/images/nia-splash.jpg "Now in Android")
-
-<a href="https://play.google.com/store/apps/details?id=com.google.samples.apps.nowinandroid"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
 
 Now in Android experimental
 ==================
@@ -25,8 +22,8 @@ Googles YouTube API is used to fetch the playlists.
 links to recent videos, articles and other content. Users can also follow topics they are interested
 in, and be notified when new content is published which matches interests they are following.
 
-## Screenshots
+## Screenshot
 
-![Screenshot showing Videos screen](docs/images/screenshot_videos.png "Screenshot showing Videos screen")
+<img src="docs/images/screenshot_videos.png" alt="Screenshot showing Videos screen" width="400">
 
 
