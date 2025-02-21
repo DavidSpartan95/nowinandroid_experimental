@@ -1,0 +1,3 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- ✅ Remove the entire <application> block, only keep this -->
+</manifest>

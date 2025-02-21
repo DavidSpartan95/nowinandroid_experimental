@@ -17,6 +17,8 @@
 package com.google.samples.apps.nowinandroid.navigation
 
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.google.samples.apps.nowinandroid.R
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.NiaIcons
@@ -24,6 +26,7 @@ import com.google.samples.apps.nowinandroid.feature.bookmarks.navigation.Bookmar
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.ForYouBaseRoute
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.ForYouRoute
 import com.google.samples.apps.nowinandroid.feature.interests.navigation.InterestsRoute
+import com.google.samples.nowinandroid.videos.navigation.VideosRoute
 import kotlin.reflect.KClass
 import com.google.samples.apps.nowinandroid.feature.bookmarks.R as bookmarksR
 import com.google.samples.apps.nowinandroid.feature.foryou.R as forYouR
@@ -73,4 +76,11 @@ enum class TopLevelDestination(
         titleTextId = searchR.string.feature_search_interests,
         route = InterestsRoute::class,
     ),
+    VIDEOS(
+        selectedIcon = Icons.Filled.PlayCircle,
+        unselectedIcon = Icons.Filled.PlayCircle,
+        iconTextId = searchR.string.feature_search_videos,
+        titleTextId = searchR.string.feature_search_videos,
+        route = VideosRoute::class,
+    )
 }

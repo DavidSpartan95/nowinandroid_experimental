@@ -29,6 +29,7 @@ import com.google.samples.apps.nowinandroid.feature.topic.navigation.topicScreen
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.INTERESTS
 import com.google.samples.apps.nowinandroid.ui.NiaAppState
 import com.google.samples.apps.nowinandroid.ui.interests2pane.interestsListDetailScreen
+import com.google.samples.nowinandroid.videos.navigation.videosScreen
 
 /**
  * Top-level navigation graph. Navigation is organized as explained at
@@ -68,5 +69,7 @@ fun NiaNavHost(
             onTopicClick = navController::navigateToInterests,
         )
         interestsListDetailScreen()
+
+        videosScreen()
     }
 }

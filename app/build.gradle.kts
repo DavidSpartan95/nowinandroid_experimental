@@ -36,6 +36,7 @@ android {
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
+
     }
 
     buildTypes {
@@ -102,6 +103,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.coil.kt)
     implementation(libs.kotlinx.serialization.json)
+    implementation(project(":feature:video"))
 
     ksp(libs.hilt.compiler)
 
@@ -131,6 +133,7 @@ dependencies {
     androidTestImplementation(libs.kotlin.test)
 
     baselineProfile(projects.benchmarks)
+
 }
 
 baselineProfile {

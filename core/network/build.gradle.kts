@@ -1,3 +1,5 @@
+import java.util.Properties
+import com.android.build.api.variant.BuildConfigField
 /*
  * Copyright 2022 The Android Open Source Project
  *
@@ -32,7 +34,13 @@ android {
             isIncludeAndroidResources = true
         }
     }
+
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
+
+    BuildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
 }
+
 
 secrets {
     defaultPropertiesFileName = "secrets.defaults.properties"
